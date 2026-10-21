@@ -7,6 +7,7 @@ on:
     paths:
       - 'NovaPanelAndroid.zip'
       - '.github/workflows/build.yml'
+      - 'NovaPanelAndroid_v2.zip'
 
 jobs:
   build:
