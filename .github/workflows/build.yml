@@ -31,6 +31,34 @@ jobs:
           mkdir -p project
           unzip -o NovaPanelAndroid.zip -d project
 
+      - name: Corrigir compatibilidade Java e Kotlin
+        run: |
+          FILE="project/app/build.gradle"
+          if [ ! -f "$FILE" ]; then
+            echo "Nao encontrei app/build.gradle dentro do ZIP"
+            find project -maxdepth 4 -type f
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("project/app/build.gradle")
+          s = p.read_text()
+          insert = """
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+              kotlinOptions {
+                  jvmTarget = '17'
+              }
+          """
+          if "compileOptions" not in s:
+              s = s.replace("android {", "android {\n" + insert, 1)
+          elif "jvmTarget" not in s:
+              s = s.replace("android {", "android {\n" + insert, 1)
+          p.write_text(s)
+          PY
+
       - name: Compilar APK
         working-directory: project
         run: gradle assembleDebug
