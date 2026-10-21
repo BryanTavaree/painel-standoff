@@ -1,0 +1,43 @@
+
+name: Build NovaPanel APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'NovaPanelAndroid.zip'
+      - '.github/workflows/build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
+
+      - name: Extrair projeto
+        run: |
+          mkdir -p project
+          unzip -o NovaPanelAndroid.zip -d project
+
+      - name: Compilar APK
+        working-directory: project
+        run: gradle assembleDebug
+
+      - name: Publicar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaPanel-debug-apk
+          path: project/app/build/outputs/apk/debug/app-debug.apk
+          
