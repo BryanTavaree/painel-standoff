@@ -29,7 +29,7 @@ jobs:
       - name: Extrair projeto
         run: |
           mkdir -p project
-          unzip -o NovaPanelAndroid.zip -d project
+          unzip -o NovaPanelAndroid_v2.zip -d project
 
       - name: Corrigir compatibilidade Java e Kotlin
         run: |
