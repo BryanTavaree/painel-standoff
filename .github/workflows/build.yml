@@ -7,7 +7,7 @@ on:
     paths:
       - 'NovaPanelAndroid.zip'
       - '.github/workflows/build.yml'
-      - 'NovaPanelAndroid_v4.zip'
+      - 'NovaPanelAndroid_v5.zip'
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
       - name: Extrair projeto
         run: |
           mkdir -p project
-          unzip -o NovaPanelAndroid_v4.zip -d project
+          unzip -o NovaPanelAndroid_v5.zip -d project
 
       - name: Corrigir compatibilidade Java e Kotlin
         run: |
